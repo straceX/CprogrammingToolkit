@@ -34,3 +34,18 @@ int is_sorted(const int *ptr,size_t size)
 
     return 1;
 }
+
+int display(const int *ptr,size_t size)
+{
+	int iter;
+
+	for(iter =0;iter<size;++iter)
+	{
+		printf("%d",ptr[iter]);
+	}
+
+	printf("\n");
+
+	return ++iter;
+
+}
