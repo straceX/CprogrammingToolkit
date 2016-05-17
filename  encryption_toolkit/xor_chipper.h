@@ -1,0 +1,1 @@
+char *xor_cipher(char [], char []);
