@@ -8,6 +8,9 @@ char *shift_cipher(char * ptr,size_t size,size_t shift)
     if(shift == 0)
         return ptr;
 
+    if(size == 0)
+        return NULL;
+
     for(i = 0; i<size; ++i)
     {
         ptr[i] = ptr[i] + shift;
@@ -25,6 +28,9 @@ char *shift_uncipher(char * ptr,size_t size,size_t shift)
 
     if(shift == 0)
         return ptr;
+    
+    if(size == 0)
+        return NULL;
 
     for(i =0;i< size;++i)
     {
