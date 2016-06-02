@@ -94,3 +94,12 @@ unsigned long long Permutations(size_t n,size_t r)
     else
         return (factorial(n)/factorial(n-r));
 }
+
+/* nCr | n max 20*/
+unsigned long long Combinations(size_t n,size_t r)
+{
+    if(n<r)
+        return 0;
+    else
+        return (Permutations(n,r) / factorial(r));
+}
