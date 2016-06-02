@@ -67,3 +67,21 @@ int division_steps_sum(int val)
     return sum;
 
 }
+
+/*Max 20! calculate x64 system*/
+unsigned long long factorial(size_t val)
+{
+    size_t iter;
+    unsigned long long res=1;
+
+    if(val==0 || val == 1)
+        return 1;
+    else
+    {
+        for(iter=2;iter<=val;++iter)
+        {
+            res *=iter;
+        }
+    }
+    return res;
+}
