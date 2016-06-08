@@ -34,8 +34,22 @@ char * url_encoder(const char *ptrVal)
 
 char *ascii2hex(const char  *ptrVal,size_t size)
 {
+	char *ptr = NULL;
+	int iter;
+	if (!(ptr = (char *)(malloc(sizeof(char) * ( size * 2 + 1 )))))
+		return NULL;
+	else
+	{
+		for (iter = 0; iter < size; ++iter)
+			sprintf(ptr + (iter * 2), "%02X", ptrVal[iter]);
+
+		ptr[iter*2] = '\0';
+		return ptr;
+	}
+	
 	return NULL;
 }
+
 char *hex2ascii(const char  *ptrVal,size_t size)
 {
 	return NULL;
