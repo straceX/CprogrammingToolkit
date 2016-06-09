@@ -103,3 +103,22 @@ unsigned long long Combinations(size_t n,size_t r)
     else
         return (Permutations(n,r) / factorial(r));
 }
+
+
+int greatest_common_divisor(int ival1,int ival2)
+{
+
+    return -1;
+}
+
+int least_common_multiple(int ival1,int ival2)
+{
+
+    return -1;
+}
+
+int *fibonacci_series(int * ptrVal,size_t length)
+{
+    return NULL;
+}
+
