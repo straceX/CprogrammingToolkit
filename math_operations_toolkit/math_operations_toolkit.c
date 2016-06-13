@@ -117,8 +117,25 @@ int least_common_multiple(int ival1,int ival2)
     return -1;
 }
 
-int *fibonacci_series(int * ptrVal,size_t length)
+int *get_fibonacci_numbers(int ptrFib[], size_t size)
 {
-    return NULL;
+    int iter;
+    if (!size)
+        return NULL;
+    if (size == 1) {
+        ptrFib[0] = 1;
+        return ptrFib;
+    }
+    else
+    {
+        ptrFib[0] = 1;
+        ptrFib[1] = 1;
+
+        for (iter = 2; iter < size; ++iter) {
+            ptrFib[iter] = ptrFib[iter - 1] + ptrFib[iter - 2];
+        }
+        return ptrFib;
+    }
+    
 }
 

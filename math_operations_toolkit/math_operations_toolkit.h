@@ -19,5 +19,5 @@ int greatest_common_divisor(int,int);
 int least_common_multiple(int,int);
 
 
-int *fibonacci_series(int *,size_t);
+int *get_fibonacci_numbers(int [], size_t);
 
