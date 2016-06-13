@@ -53,3 +53,14 @@ char *get_system_mac(char *ptrMac,const char *interface)
     
     return ptrMac;
 }
+
+char *getpwd(void)
+{
+    char *pwd = getcwd(0,0);
+
+    if (!pwd)
+        return NULL;
+    else
+        return pwd;
+}
+
