@@ -1,3 +1,5 @@
+#include <math.h>
+
 int is_prime(unsigned int );
 int *division_steps(int);
 int division_steps_sum(int);
@@ -20,4 +22,4 @@ int least_common_multiple(int,int);
 
 
 int *get_fibonacci_numbers(int [], size_t);
-
+int is_armstrong_number(int number);

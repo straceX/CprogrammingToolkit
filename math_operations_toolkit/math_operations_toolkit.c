@@ -1,5 +1,3 @@
-#include <math.h>
-
 int is_prime(unsigned int param)
 {
     int iter,length;
@@ -139,3 +137,28 @@ int *get_fibonacci_numbers(int ptrFib[], size_t size)
     
 }
 
+/* In recreational number theory, a narcissistic number (also known as a pluperfect digital invariant (PPDI), 
+an Armstrong number (after Michael F. Armstrong) or a plus perfect number) 
+is a number that is the sum of its own digits each raised to the power of the number of digits. [1]
+[1] : https://en.wikipedia.org/wiki/Narcissistic_number */
+int is_armstrong_number(int number)
+{
+    int is = 0;
+    int iter = 0;
+    int stepN;
+    int stepSize = log10(number) + 1;
+
+    for (iter = 0; iter < stepSize; ++iter)
+    {
+        stepN = (number / ((int)pow(10, iter))) % 10;
+        is += pow(stepN, stepSize);
+
+        if (is>number)
+            break;
+    }
+
+    if (is == number)
+        return 1;
+    else
+        return 0;
+}
