@@ -15,4 +15,13 @@ char *get_system_mac(char *system_mac)
 	return NULL;
 }
 
+char *getpwd(void)
+{
+	char *pwd = _getcwd(NULL, 0);
+	
+	if (!pwd)
+		return NULL;
+	else
+		return pwd;
+}
 
