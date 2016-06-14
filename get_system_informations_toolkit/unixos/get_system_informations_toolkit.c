@@ -54,6 +54,7 @@ char *get_system_mac(char *ptrMac,const char *interface)
     return ptrMac;
 }
 
+/*free(return memory address) after use*/
 char *getpwd(void)
 {
     char *pwd = getcwd(0,0);
@@ -63,4 +64,18 @@ char *getpwd(void)
     else
         return pwd;
 }
+
+char *getcwd(void)
+{
+    static char pwd[PATH_MAX];
+
+    if (!realpath (".", pwd))
+        fprintf (stderr, "realpath func failed:%s\n", strerror(errno));
+    else
+        return pwd;
+
+    return NULL;
+
+}
+
 
