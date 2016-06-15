@@ -2,7 +2,9 @@
   
    
 
-#else
+#endif
+
+#ifdef LINUX
 
  #define SWAP(valX,valY)                              \
         {                                             \
@@ -12,17 +14,22 @@
           valY = valZ;                                \
         }
 
-
-
-
 #endif
 
 
+
+/*Swap 2 integer number by xor method*/
 void swap2int(int *,int *);
+
+/*Inverse number like 1136 -> 6311*/
 int inverse_number(int);
+
 char * base64_decoder(const char *);
 char * base64_encoder(const char *);
 char * url_decoder(const char *);
 char * url_encoder(const char *);
+
+/*ASCII values convert HEX values*/
 char *ascii2hex(const char  *,size_t);
+/*HEX values convert ASCII values*/
 char *hex2ascii(const char  *,size_t);
