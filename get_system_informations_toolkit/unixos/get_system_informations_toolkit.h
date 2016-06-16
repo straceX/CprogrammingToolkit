@@ -12,9 +12,20 @@
 #include <sys/param.h>
 #include <errno.h>
 
+/*return 64 or 86 for system architecture*/
 int get_system_cpu_arc();
+
+/*return windows system IP address via second parameters (interface)*/
 char *get_system_ip(char *);
+
+/*return windows system MAC address via second parameters (interface)*/
 char *get_system_mac(char *,const char*);
-char *get_system_netmask(const char *interface);
-char *getpwd(void);
-char *getcwd(void);
+
+/*return windows system Netmask value via second parameters (interface)*/
+char *get_system_netmask(const char *);
+
+/*return current working directory via getcwd() function*/
+char *getCWD(void);
+
+/*return current working directory via realpath() function*/
+char *getPWD(void);

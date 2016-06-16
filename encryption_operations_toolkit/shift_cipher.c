@@ -1,4 +1,4 @@
-char *shift_cipher(char * ptr,size_t size,size_t shift)
+char *shift_cipher(char ptr[],size_t size,size_t shift)
 {
     size_t i;
 
@@ -19,7 +19,7 @@ char *shift_cipher(char * ptr,size_t size,size_t shift)
     return ptr;
 }
 
-char *shift_uncipher(char * ptr,size_t size,size_t shift)
+char *shift_uncipher(char ptr[],size_t size,size_t shift)
 {
     size_t i;
 

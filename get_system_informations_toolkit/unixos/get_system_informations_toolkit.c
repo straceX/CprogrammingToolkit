@@ -78,7 +78,7 @@ char *get_system_netmask(const char *interface)
 }
 
 /*free(return memory address) after use*/
-char *getpwd(void)
+char *getCWD(void)
 {
     char *pwd = getcwd(0,0);
 
@@ -88,7 +88,7 @@ char *getpwd(void)
         return pwd;
 }
 
-char *getcwd(void)
+char *getPWD(void)
 {
     static char pwd[PATH_MAX];
 
