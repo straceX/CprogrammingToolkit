@@ -9,7 +9,7 @@ int is_leap_year(unsigned int year)
 }
 
 /*current_date length min 20 elements*/
-char * get_system_current_date(char current_date[],size_t size)
+char *get_system_current_date(char current_date[],size_t size)
 {
 	time_t t = time(NULL);
 	struct tm *lc_time = localtime(&t);	
