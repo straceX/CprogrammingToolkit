@@ -21,6 +21,8 @@
 /*Swap 2 integer number by xor method*/
 void swap2int(int *,int *);
 
+char *decimal_to_binary(size_t);
+
 /*Inverse number like 1136 -> 6311*/
 int inverse_number(int);
 

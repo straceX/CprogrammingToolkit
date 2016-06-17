@@ -9,6 +9,50 @@ void swap2int(int *val1,int *val2)
 
 }
 
+char *decimal_to_binary(size_t number)
+{
+	char *binaryFormat;
+	int bdigits;
+	int iter = 0;
+	int tNumber;
+
+	if (!number)
+	{
+		binaryFormat = "0";
+		return binaryFormat;
+	}
+		 
+
+	tNumber = number;	
+	bdigits = 0;
+	
+	do 
+	{
+		++bdigits;
+	} while (tNumber /= 2);
+
+	
+
+	if (!(binaryFormat = malloc((bdigits + 1)*(sizeof(char)))))
+		return NULL;
+
+	
+	iter = bdigits;
+	binaryFormat[iter--] = '\0';
+
+	tNumber = number;
+
+	do
+	{
+		binaryFormat[iter] = 48 + tNumber % 2;
+		--iter;
+
+	} while (tNumber /= 2);
+
+	return binaryFormat;
+	
+}
+
 int inverse_number(int val)
 {
 
