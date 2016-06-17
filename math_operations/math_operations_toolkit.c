@@ -1,3 +1,20 @@
+int is_palindrome(const int val)
+{
+    int digits = log10(val) + 1;
+    int mid = digits / 2;
+    int iter;
+    int left, right;
+    for (iter = 0; iter < mid; ++iter)
+    {
+        left  = ( val / ( (int)pow(10, digits - iter - 1)) ) % 10;
+        right = ( val / ( (int)pow(10,iter) ) ) % 10;
+        
+        if (left != right) 
+            return 0;
+    }
+    return 1;
+}
+
 int is_prime(unsigned int param)
 {
     int iter,length;
@@ -23,7 +40,6 @@ int is_prime(unsigned int param)
 
     }
 }
-
 /*array first element step_count(array size)*/
 int *division_steps(int val)
 {

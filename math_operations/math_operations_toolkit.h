@@ -1,5 +1,10 @@
 #include <math.h>
 
+/*A palindromic number or numeral palindrome is a number that remains
+ the same when its digits are reversed. Like 16461 [1]
+ [1]: https://en.wikipedia.org/wiki/Palindromic_number */
+int is_palindrome(const int val)
+
 /*Prime number query function*/
 int is_prime(unsigned int );
 
