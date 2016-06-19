@@ -178,3 +178,24 @@ int is_armstrong_number(int number)
     else
         return 0;
 }
+
+int inverse_number(const int number)
+{
+    int invnum = 0;
+    int Number;
+    int digits;
+    int iter;
+    if (number < 0)
+        Number = -1 * number;
+    else
+        Number = number;
+
+    digits = log10(Number);
+    if (!digits || !Number)
+        return number < 0 ? -1 * Number : Number;
+    for (iter = 0; iter <= digits; ++iter)
+        invnum += ( Number / ( (int)(pow(10,digits-iter)) ) % 10 ) * pow(10, iter);
+
+    return number < 0 ? -1 * invnum : invnum;
+}
+

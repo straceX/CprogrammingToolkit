@@ -37,3 +37,7 @@ int *get_fibonacci_numbers(int [], size_t);
 
 /*Armstrong number query function*/
 int is_armstrong_number(int number);
+
+/*Inverse number like 1234->4321*/
+int inverse_number(const int number);
+
