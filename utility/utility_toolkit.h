@@ -33,5 +33,6 @@ char * url_encoder(const char *);
 
 /*ASCII values convert HEX values*/
 char *ascii2hex(const char  *,size_t);
+
 /*HEX values convert ASCII values*/
 char *hex2ascii(const char  *,size_t);

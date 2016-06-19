@@ -96,6 +96,28 @@ char *ascii2hex(const char  *ptrVal,size_t size)
 
 char *hex2ascii(const char  *ptrVal,size_t size)
 {
+	char *ptr = NULL;
+	int iter;
+	char stmp[3];
+	char c;
+	int j = 0;
+	
+	if (!(ptr = (char *)(malloc(sizeof(char)* (size  + 1)))))
+		return NULL;
+	else
+	{
+		stmp[2] = '\0';
+		for (iter = 0; iter < size*2; ++iter) {
+			stmp[0] = ptrVal[iter++];
+			stmp[1] = ptrVal[iter];
+			c = (char)strtoul(stmp, 0, 16);
+			ptr[j++] = c;
+		}
+
+		ptr[j] = '\0';
+		return ptr;
+	}
+
 	return NULL;
 }
 
