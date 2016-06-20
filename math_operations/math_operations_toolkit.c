@@ -199,3 +199,7 @@ int inverse_number(const int number)
     return number < 0 ? -1 * invnum : invnum;
 }
 
+int is_harshad_numbers(const int number1,const int number2)
+{
+
+}

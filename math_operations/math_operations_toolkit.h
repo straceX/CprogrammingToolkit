@@ -41,3 +41,8 @@ int is_armstrong_number(int number);
 /*Inverse number like 1234->4321*/
 int inverse_number(const int number);
 
+/* 2620, 2924 are Niven (Harshed) numbers.
+2620,divided by 10 : 10 = 2 + 6 + 2 + 0
+2924,divided by 17 : 17 = 2 + 9 + 2 + 4
+[1] : https://en.wikipedia.org/wiki/Harshad_number */
+int is_harshad_numbers(const int,const int);
