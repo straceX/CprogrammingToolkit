@@ -1,8 +1,14 @@
 #include <stdio.h>
 
+void swaper(char *val1, char *val2, size_t width)
 {
+	size_t iter;
 	char temp;
 
+	for (iter = 0; iter < width; ++iter) {
+		temp = pc1[iter];
+		val1[iter] = val2[iter];
+		val2[iter] = temp;
 	}
 }
 
