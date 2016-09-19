@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 void swaper(char *val1, char *val2, size_t width)
 {
 	size_t iter;
