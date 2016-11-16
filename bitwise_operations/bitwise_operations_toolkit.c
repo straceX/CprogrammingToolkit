@@ -8,3 +8,17 @@ char *int_to_binary(const int ival,char *ptrS)
 	
 	return NULL;
 }
+
+/*set number's .th bit value */
+int set_bit(int ival, size_t n)
+{
+	if (n > 31) return ival;
+	return ival |= 1 << n;
+}
+
+/*reset number's .th bit value */
+int reset_bit(int ival, size_t n)
+{
+	if (n > 31) return ival;
+	return ival &= ~(1 << n);
+}
