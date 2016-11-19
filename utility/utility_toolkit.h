@@ -36,3 +36,6 @@ char *ascii2hex(const char  *,size_t);
 
 /*HEX values convert ASCII values*/
 char *hex2ascii(const char  *,size_t);
+
+const int is_little_endian_ival = 1;
+#define is_little_endian() ( ( *((char*) &is_little_endian_ival) ) == 1 )
