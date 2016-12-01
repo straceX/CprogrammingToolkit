@@ -1,12 +1,14 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 #ifdef OS_WINDOWS
   
    
 
 #else
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
 #include <stdio_ext.h>
 
 typedef struct stream_Info
@@ -17,11 +19,12 @@ typedef struct stream_Info
 
 stream_info *learn_buffer_inf(FILE *);
 
-
-
 #endif
 
 
+#define BLOCK_SIZE      8192
+/*Merge files and write the rest to zero at the desired size*/
+int merge_file(const char *ofilename,const size_t filecount,const char **files,unsigned long ofsize);
 
 
 
