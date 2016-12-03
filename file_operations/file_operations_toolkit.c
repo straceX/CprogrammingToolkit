@@ -40,7 +40,7 @@ int merge_file(const char *ofilename,const size_t filecount,const char **files,u
     if ((fdest = fopen(ofilename, "wb")) == NULL)
     {
         fprintf(stderr, "cannot open file: %s\n", ofilename);
-        exit(EXIT_FAILURE);
+        return -1;
     }
 
     for (iter = 0; iter < filecount; ++iter)
@@ -61,8 +61,8 @@ int merge_file(const char *ofilename,const size_t filecount,const char **files,u
 
             if (ferror(fsource))
             {
-            fprintf(stderr, "cannot read file!\n");
-            return -1;
+                fprintf(stderr, "cannot read file!\n");
+                return -1;
             }
 
             fclose(fsource);
@@ -70,26 +70,29 @@ int merge_file(const char *ofilename,const size_t filecount,const char **files,u
     }
 
     size = ftell(fdest);
-    if(size > ofsize)
+    if(ofsize)
     {
-        fprintf(stderr, "output file size is wrong!\n");
-        fclose(fdest);
-        return -1;
-    }
-    leftSize = ofsize - size;
+        if(size > ofsize)
+        {
+           fprintf(stderr, "output file size is wrong!\n");
+           fclose(fdest);
+           return -1;
+         }
+        leftSize = ofsize - size;
 
-    if ((zeroBlock = (char *) calloc(BLOCK_SIZE, 1)) == NULL) {
-        fprintf(stderr, "cannot allocate mmeory!\n");
-        return -1;
-    }
-
-    while (leftSize > 0) {
-        if (!fwrite(zeroBlock, 1, leftSize >= BLOCK_SIZE ? BLOCK_SIZE : leftSize, fdest)) {
-            fprintf(stderr, "cannot write file!\n");
+         if ((zeroBlock = (char *) calloc(BLOCK_SIZE, 1)) == NULL) {
+            fprintf(stderr, "cannot allocate mmeory!\n");
             return -1;
         }
-        leftSize -= BLOCK_SIZE;
-    }
+
+         while (leftSize > 0) {
+             if (!fwrite(zeroBlock, 1, leftSize >= BLOCK_SIZE ? BLOCK_SIZE : leftSize, fdest)) {
+                fprintf(stderr, "cannot write file!\n");
+                return -1;
+            }
+            leftSize -= BLOCK_SIZE;
+        }
+    }    
 
     fclose(fdest);
 
