@@ -203,3 +203,26 @@ int is_harshad_numbers(const int number1,const int number2)
 {
 
 }
+
+int *binom_exp(const int level)
+{
+    int power,iter=0;
+    int term = 1;
+    unsigned int coefficient = 1;
+
+    int *ptr = (int *)malloc(sizeof(int) * (level + 1));
+
+    if(!ptr)
+        return NULL;
+    else
+    {
+        for (power = level; power >= 0; --power)
+        {
+            ptr[iter++] = coefficient;
+            coefficient = coefficient * power / term;
+            ++term;
+        }
+    }
+    return ptr;
+
+}

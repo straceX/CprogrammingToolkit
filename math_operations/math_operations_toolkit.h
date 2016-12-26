@@ -46,3 +46,6 @@ int inverse_number(const int number);
 2924,divided by 17 : 17 = 2 + 9 + 2 + 4
 [1] : https://en.wikipedia.org/wiki/Harshad_number */
 int is_harshad_numbers(const int,const int);
+
+/*The binomial coefficients appear as the entries of Pascal's triangle where each entry is the sum of the two above it.*/
+int *binomial_coefficients(const int level);
