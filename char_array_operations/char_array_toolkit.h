@@ -25,3 +25,4 @@ Tokenizing_Property *sentence_tokenization(const char *,const char );
 /*Tokenizing sentence via seperator(second parameter)*/
 char **separation_sentence_words(const char *,const char );
 
+int is_valid_name(const char *str);

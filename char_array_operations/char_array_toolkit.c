@@ -204,3 +204,21 @@ char ** separation_sentence_words(const char *ptrSentence,const char separator_t
 
     return ptr;
 }
+
+int is_valid_name(const char *str)
+{
+  char ch;
+
+  if ((ch = *str++) == '\0')
+     return 0;
+
+  if ( !isalpha(ch) || isspace(ch))
+     return 0;
+
+  while ( (ch = *str++) != '\0')
+     if ( !isalnum(ch) || isspace(ch) )
+        return 0;
+
+  return 1;
+
+}
