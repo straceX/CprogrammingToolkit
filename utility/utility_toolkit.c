@@ -121,4 +121,21 @@ char *hex2ascii(const char  *ptrVal,size_t size)
 	return NULL;
 }
 
+void print_banner(const char *str)
+{
+    int j, pr;
 
+    for (j = 0; j < 6; ++j)
+    {
+        const char * ptrS = str;
+        while (pr && *ptrS)
+        {
+            int i = (toupper(*ptrS++) - 'A') * 6 + 6 + j;
+            i = (i < 0 || i >= sizeof(dict)) ? 0 : i;
+            for (pr = 5; pr >= -1; --pr)
+                printf("%c",(((pr >= 0) && (dict[i] & (1 << pr))) ? '*':' '));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
