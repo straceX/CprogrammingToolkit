@@ -31,12 +31,22 @@ DWORD RVA_to_file_offset(DWORD rva)
 }
 void exit_sys(LPCSTR lpszMsg, int status)
 {
+    DWORD dwLastError = GetLastError();
+	LPTSTR lpszErr;
 
+	if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwLastError,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpszErr, 0, NULL)) {
+		fprintf(stderr, "%s: %s", lpszMsg, lpszErr);
+		LocalFree(lpszErr);
+	}
+
+	exit(status);
 }
 
 void exit_usr(LPCSTR lpszMsg, int status)
 {
-
+    fprintf(stderr, "%s\n", lpszMsg);
+	exit(status);
 }
 
 int test_pe_parser_functions(const char *fname)
