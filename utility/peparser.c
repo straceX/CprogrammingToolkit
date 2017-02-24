@@ -2,7 +2,37 @@
 
 void print_image_file_header(void)
 {
+    time_t time;
+	struct tm *ptime;
+	int i;
+	DWORD characteristics;
+	static const char *characteristicsNames[] = { "IMAGE_FILE_RELOCS_STRIPPED", "IMAGE_FILE_EXECUTABLE_IMAGE", "IMAGE_FILE_LINE_NUMS_STRIPPED", "IMAGE_FILE_LOCAL_SYMS_STRIPPED",
+	"IMAGE_FILE_AGGRESSIVE_WS_TRIM", "IMAGE_FILE_LARGE_ADDRESS_ AWARE", "", "IMAGE_FILE_BYTES_REVERSED_LO", "IMAGE_FILE_32BIT_MACHINE", "IMAGE_FILE_DEBUG_STRIPPED",
+	"IMAGE_FILE_REMOVABLE_RUN_ FROM_SWAP", "IMAGE_FILE_NET_RUN_FROM_SWAP", "IMAGE_FILE_SYSTEM", "IMAGE_FILE_DLL", "IMAGE_FILE_UP_SYSTEM_ONLY", "IMAGE_FILE_BYTES_REVERSED_HI" };
 
+	printf("\n--------------------------------------------------\n");
+	printf("\t\tIMAGE_FILE_HEADER\n");
+	printf("--------------------------------------------------\n");
+
+	printf("Machine: 0x%04X\n", g_imageFileHeader->Machine);
+	printf("NumberOfSections: %d (0x%04X)\n", g_imageFileHeader->NumberOfSections, g_imageFileHeader->NumberOfSections);
+	
+	time = g_imageFileHeader->TimeDateStamp;
+	ptime = localtime(&time);
+	
+	printf("Time Date Stamp: %02d/%02d/%4d %02d:%02d:%02d\n", ptime->tm_mday, ptime->tm_mon + 1, ptime->tm_year + 1900,ptime->tm_hour, ptime->tm_min, ptime->tm_sec);
+
+	printf("Pointer To Symbol Table: 0x%08X\n", g_imageFileHeader->PointerToSymbolTable);
+	printf("Number Of Symbols: 0x%08X\n", g_imageFileHeader->NumberOfSymbols);
+	printf("Sizeof Image Optional Header: %lu (0x%08X)\n", g_imageFileHeader->SizeOfOptionalHeader, g_imageFileHeader->SizeOfOptionalHeader);
+
+	characteristics = g_imageFileHeader->Characteristics;
+	printf("Characteristics (0x%08X):\n", characteristics);
+	for (i = 0; characteristics; ++i) {
+		if (characteristics & 1) 
+			printf("\t%s\n", characteristicsNames[i]);
+		characteristics >>= 1;
+	}
 }
 
 void print_image_optional_file_header(void)
