@@ -37,7 +37,51 @@ void print_image_file_header(void)
 
 void print_image_optional_file_header(void)
 {
+    int i;
+    const char *dataDirectoryNames[] = { "Export Directory", "Import Directory", "Resource Directory", "Exception Directory", "Certificates Directory",	"Base Relocation Directory", 
+                                         "Debug Directory", "Architecture Directory", "Global Pointer Directory", "Thread Storage Directory", "Load Configuration Directory",
+                                         "Bound Import Directory", "Import Address Table Directory", "Delay Import Directory", "COM Descriptor Directory", "Reserved Directory" 
+                                       };
+	
+		
+	printf("\n--------------------------------------------------\n");
+	printf("\t\tIMAGE_OPTINAL_HEADER\n");
+	printf("--------------------------------------------------\n\n");
 
+	printf("Magic: 0x%04X\n", g_imageOptionalHeader->Magic);
+	printf("MajorLinkerVersion: %02d\n", g_imageOptionalHeader->MajorLinkerVersion);
+	printf("MinorLinkerVersion: %02d\n", g_imageOptionalHeader->MinorLinkerVersion);
+	printf("SizeOfCode: %lu (0x%08lX)\n", g_imageOptionalHeader->SizeOfCode, g_imageOptionalHeader->SizeOfCode);
+	printf("SizeofInitializedData: %lu (0x%08lX)\n", g_imageOptionalHeader->SizeOfInitializedData, g_imageOptionalHeader->SizeOfInitializedData);
+	printf("SizeofUninitializedData: %lu (0x%08lX)\n", g_imageOptionalHeader->SizeOfUninitializedData, g_imageOptionalHeader->SizeOfUninitializedData);
+	printf("AddressOfEntryPoint: 0x%08lX\n", g_imageOptionalHeader->AddressOfEntryPoint);
+	printf("BaseOfCode: 0x%08lX\n", g_imageOptionalHeader->BaseOfCode);
+	printf("BaseOfData: 0x%08lX\n", g_imageOptionalHeader->BaseOfData);
+	printf("ImageBase: 0x%08lX\n", g_imageOptionalHeader->ImageBase);
+	printf("SectionAlignment: %lu (0x%08lX)\n", g_imageOptionalHeader->SectionAlignment, g_imageOptionalHeader->SectionAlignment); 
+	printf("FileAlignment: %lu (0x%08lX)\n", g_imageOptionalHeader->FileAlignment, g_imageOptionalHeader->FileAlignment);
+	printf("MajorOperatingSystemVersion: %02d\n", g_imageOptionalHeader->MajorOperatingSystemVersion);
+	printf("MinorOperatingSystemVersion: %02d\n", g_imageOptionalHeader->MinorOperatingSystemVersion);
+	printf("MajorImageVersion: %d\n", g_imageOptionalHeader->MajorImageVersion);
+	printf("MinorImageVersion: %d\n", g_imageOptionalHeader->MinorImageVersion);
+	printf("MajorSubsystemVersion: %d\n", g_imageOptionalHeader->MajorSubsystemVersion);
+	printf("MinorSubsystemVersion: %d\n", g_imageOptionalHeader->MinorSubsystemVersion);
+	printf("Win32VersionValue: %lu\n", g_imageOptionalHeader->Win32VersionValue);
+	printf("SizeofImage: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfImage, g_imageOptionalHeader->SizeOfImage);
+	printf("SizeofHeaders: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfHeaders, g_imageOptionalHeader->SizeOfHeaders);
+	printf("Checksum: %lu (0x%lX)\n", g_imageOptionalHeader->CheckSum, g_imageOptionalHeader->CheckSum);
+	printf("Subsystem: %lu\n", g_imageOptionalHeader->Subsystem);
+	printf("SizeOfStackReserve: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfStackReserve, g_imageOptionalHeader->SizeOfStackReserve);
+	printf("SizeOfStackCommit: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfStackCommit, g_imageOptionalHeader->SizeOfStackCommit);
+	printf("SizeOfHeapReserve: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfHeapReserve, g_imageOptionalHeader->SizeOfHeapReserve);
+	printf("SizeOfHeapCommit: %lu (0x%lX)\n", g_imageOptionalHeader->SizeOfHeapCommit, g_imageOptionalHeader->SizeOfHeapCommit);
+	printf("NumberOfRvaAndSizes: %lu\n", g_imageOptionalHeader->NumberOfRvaAndSizes);
+
+	printf("\n--------------------\n");
+	printf("\tData Directories\n");
+	printf("--------------------\n");
+	for (i = 0; i < (int)g_imageOptionalHeader->NumberOfRvaAndSizes; ++i) 
+		printf("%s:\n\tRVA: 0x%08X, Size: 0x%08lX\n", dataDirectoryNames[i], g_imageOptionalHeader->DataDirectory[i].VirtualAddress, g_imageOptionalHeader->DataDirectory[i].Size);
 }
 
 void print_image_section_headers(void)
