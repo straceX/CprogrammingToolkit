@@ -30,14 +30,14 @@ void print_image_file_header(void)
 	printf("Characteristics (0x%08X):\n", characteristics);
 	for (i = 0; characteristics; ++i) {
 		if (characteristics & 1) 
-			printf("\t%s\n", characteristicsNames[i]);
+			printf("\t%s\n", characteristicsNames[iter]);
 		characteristics >>= 1;
 	}
 }
 
 void print_image_optional_file_header(void)
 {
-    int i;
+    int iter;
     const char *dataDirectoryNames[] = { "Export Directory", "Import Directory", "Resource Directory", "Exception Directory", "Certificates Directory",	"Base Relocation Directory", 
                                          "Debug Directory", "Architecture Directory", "Global Pointer Directory", "Thread Storage Directory", "Load Configuration Directory",
                                          "Bound Import Directory", "Import Address Table Directory", "Delay Import Directory", "COM Descriptor Directory", "Reserved Directory" 
@@ -80,13 +80,38 @@ void print_image_optional_file_header(void)
 	printf("\n--------------------\n");
 	printf("\tData Directories\n");
 	printf("--------------------\n");
-	for (i = 0; i < (int)g_imageOptionalHeader->NumberOfRvaAndSizes; ++i) 
-		printf("%s:\n\tRVA: 0x%08X, Size: 0x%08lX\n", dataDirectoryNames[i], g_imageOptionalHeader->DataDirectory[i].VirtualAddress, g_imageOptionalHeader->DataDirectory[i].Size);
+	for (iter = 0; iter < (int)g_imageOptionalHeader->NumberOfRvaAndSizes; ++iter) 
+		printf("%s:\n\tRVA: 0x%08X, Size: 0x%08lX\n", dataDirectoryNames[iter], g_imageOptionalHeader->DataDirectory[iter].VirtualAddress, g_imageOptionalHeader->DataDirectory[iter].Size);
 }
 
 void print_image_section_headers(void)
 {
+    int iter, jiter;
+	const char *flagNames[32] = {"", "", "", "", "", "IMAGE_SCN_CNT_CODE", "IMAGE_SCN_CNT_INITIALIZED_DATA", "IMAGE_SCN_CNT_UNINITIALIZED_ DATA",
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "IMAGE_SCN_MEM_DISCARDABLE", "", "", "", 
+		"IMAGE_SCN_MEM_EXECUTE", "IMAGE_SCN_MEM_READ", "IMAGE_SCN_MEM_WRITE" };
 
+	printf("\n--------------------\n");
+	printf("\tSection Headers\n");
+	printf("--------------------\n");
+
+	for (iter = 0; iter < g_imageFileHeader->NumberOfSections; ++iter)
+    {
+		printf("Name: %s\n", g_sectionHeaders[iter].Name);
+		printf("VirtualSize: %lu (0x%08lX)\n", g_sectionHeaders[iter].Misc.VirtualSize, g_sectionHeaders[iter].Misc.VirtualSize);
+		printf("VirtualAddress: 0x%08lX\n", g_sectionHeaders[iter].VirtualAddress); 
+		printf("SizeOfRawData: %lu (0x%08lX)\n", g_sectionHeaders[iter].SizeOfRawData, g_sectionHeaders[iter].SizeOfRawData);
+		printf("PointerToRawData: 0x%08lX (%lu)\n", g_sectionHeaders[iter].PointerToRawData, g_sectionHeaders[iter].PointerToRawData);
+		printf("PointerToRelocations: 0x%08lX (%lu)\n", g_sectionHeaders[iter].PointerToRelocations, g_sectionHeaders[iter].PointerToRelocations);
+		printf("PointerToLinenumbers: 0x%08lX (%lu)\n", g_sectionHeaders[iter].PointerToLinenumbers, g_sectionHeaders[iter].PointerToLinenumbers);
+		printf("NumberOfRelocations: 0x%08lX (%lu)\n", g_sectionHeaders[iter].NumberOfRelocations, g_sectionHeaders[iter].NumberOfRelocations);
+		printf("NumberOfLinenumbers: 0x%08lX (%lu)\n", g_sectionHeaders[iter].PointerToLinenumbers, g_sectionHeaders[iter].PointerToLinenumbers);
+		printf("Characteristics: 0x%08lX\n", g_sectionHeaders[iter].Characteristics);
+
+		for (jiter = 0; jiter < 32; ++jiter)
+			if (g_sectionHeaders[iter].Characteristics >> jiter & 1)
+				printf("\t%s\n", flagNames[jiter]);
+	}
 }
 
 void print_export_directory(void)
