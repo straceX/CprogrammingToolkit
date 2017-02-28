@@ -116,7 +116,48 @@ void print_image_section_headers(void)
 
 void print_export_directory(void)
 {
+    time_t time;
+	struct tm *ptime;
+	char *str;
+	DWORD iter;
+	DWORD *names,*functions;
+	WORD *ordinals;
+	char *exportName;
+		
+	printf("\n--------------------\n");
+	printf("\tExport Directory\n");
+	printf("---------------------\n");
+	printf("Characteristics: 0x%08x\n", g_exportDirectory->Characteristics);
 
+	time = g_exportDirectory->TimeDateStamp;
+	ptime = localtime(&time);
+
+	printf("TimeDateStamp: %02d/%02d/%4d %02d:%02d:%02d\n", ptime->tm_mday, ptime->tm_mon + 1, ptime->tm_year + 1900,
+		ptime->tm_hour, ptime->tm_min, ptime->tm_sec);
+
+	printf("MajorVersion: %d\n", g_exportDirectory->MajorVersion);
+	printf("MinorVersion: %d\n", g_exportDirectory->MinorVersion);
+	
+    str = ((char *)g_imageAddr + RVAToFileOffset(g_exportDirectory->Name));
+	
+    printf("Name: RVA=0x%08lx (%s)\n", g_exportDirectory->Name, str);
+	printf("Base: %ld\n", g_exportDirectory->Base);
+	printf("NumberOfFunctions: %ld\n", g_exportDirectory->NumberOfFunctions);
+	printf("NumberOfNames: %ld\n", g_exportDirectory->NumberOfNames);
+	printf("AddressOfFunctions: 0x%08lx\n", g_exportDirectory->AddressOfFunctions);
+	printf("AddressOfNames: 0x%08lx\n", g_exportDirectory->AddressOfNames);
+	printf("AddressOfNameOrdinals: 0x%08lx\n\n", g_exportDirectory->AddressOfNameOrdinals);
+
+	names = (DWORD *)((BYTE *)g_imageAddr + RVAToFileOffset(g_exportDirectory->AddressOfNames));
+	ordinals = (WORD *)((BYTE *)g_imageAddr + RVAToFileOffset(g_exportDirectory->AddressOfNameOrdinals));
+	functions = (DWORD *)((BYTE *)g_imageAddr + RVAToFileOffset(g_exportDirectory->AddressOfFunctions));
+	
+	for (iter = 0; i < g_exportDirectory->NumberOfFunctions; ++iter) {
+		exportName = (char *)g_imageAddr + RVAToFileOffset(names[iter]);
+		printf("Hint: %lu, Ordinal: %lu, Name: %s (RVA: 0x%08lX), Exported RVA: 0x%08lX\n",
+			i, ordinals[iter] + g_exportDirectory->Base, exportName, names[iter], 
+			functions[ordinals[iter]]);
+	}
 }
 
 void print_import_directory(void);
