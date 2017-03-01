@@ -162,12 +162,55 @@ void print_export_directory(void)
 
 void print_import_directory(void);
 {
+    time_t time;
+	struct tm *ptime;
+	char *moduleName;
+	int iter, jiter;
+	DWORD *addressTableRVA;
+	BYTE *lookupTableEntry;
+	DWORD *addressTable;
+		
+	printf("\n--------------------\n");
+	printf("\tImport Directory Entries\n");
+	printf("--------------------\n");
 
+	for (iter = 0; g_importDirectoryEntries[iter].Name != 0; ++iter) {
+		printf("Import Lookup Table RVA: 0x%08lX\n", g_importDirectoryEntries[iter].OriginalFirstThunk);
+
+		time = g_importDirectoryEntries[iter].TimeDateStamp;
+		ptime = localtime(&time);
+		printf("TimeDateStamp: %02d/%02d/%4d %02d:%02d:%02d\n", ptime->tm_mday, ptime->tm_mon + 1, ptime->tm_year + 1900,
+			ptime->tm_hour, ptime->tm_min, ptime->tm_sec);
+		printf("ForwardChain: %lu (0x%08lX)\n", g_importDirectoryEntries[iter].ForwarderChain, g_importDirectoryEntries[iter].ForwarderChain);
+		moduleName = (char *)g_imageAddr + RVAToFileOffset(g_importDirectoryEntries[iter].Name);
+		printf("Name: %s (RVA: 0x%08lX)\n", moduleName, g_importDirectoryEntries[iter].Name);
+		printf("Import Address Table RVA: 0x%08lX\n", g_importDirectoryEntries[iter].FirstThunk);
+		printf("\n");
+		printf("Imported Symbols:\n");
+		
+		addressTableRVA = (DWORD *)g_importDirectoryEntries[iter].FirstThunk;
+		addressTable = (DWORD *)((BYTE *)g_imageAddr + RVAToFileOffset(g_importDirectoryEntries[iter].FirstThunk));
+		for (jiter = 0; addressTable[jiter] != 0; ++jiter) {
+			if (addressTable[jiter] & 0x80000000)
+				printf("\tSlot Address: 0x%08lX, Slot Value: 0x%08X, Ordinal: %d\n", addressTableRVA + k, addressTable[jiter], LOWORD(addressTable[jiter]));
+			else {
+				lookupTableEntry = (BYTE *)g_imageAddr + RVAToFileOffset(addressTable[jiter]);
+				printf("\tSlot Address: 0x%08lX, Slot Value: 0x%08lX, Hint: %lu (0x%04lX), %s\n", addressTableRVA + jiter, addressTable[jiter], *(WORD *)lookupTableEntry, *(WORD *)lookupTableEntry, lookupTableEntry + 2);
+			}
+		}
+	
+		printf("\n");
+	}
 }
 
 DWORD RVA_to_file_offset(DWORD rva)
 {
+    int iter;
+	for (iter = 0; iter < g_imageFileHeader->NumberOfSections; ++iter) 
+		if (rva >= g_sectionHeaders[iter].VirtualAddress && rva < g_sectionHeaders[iter].VirtualAddress + g_sectionHeaders[iter].Misc.VirtualSize)
+			return rva - g_sectionHeaders[iter].VirtualAddress + g_sectionHeaders[iter].PointerToRawData;
 
+	return 0;
 }
 void exit_sys(LPCSTR lpszMsg, int status)
 {
