@@ -98,3 +98,40 @@ int merge_file(const char *ofilename,const size_t filecount,const char **files,u
 
     return 0;
 }
+
+void getAllFilesList(const char *path)
+{
+	struct stat fd;
+	struct dirent *ent;
+	DIR *dir;
+
+	if (chdir(path) < 0) 
+		return;
+
+	if ((dir = opendir(".")) == NULL)
+	{
+		chdir("..");
+		return;
+	}
+
+    while ((ent = readdir(dir)) != NULL) 
+    {
+		if (!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, ".."))
+            continue;
+            
+        if(ent->d_type != DT_DIR)    
+		    printf("%s\n", ent->d_name);
+        
+        if (stat(ent->d_name, &fd) < 0)
+			goto EXIT;
+        
+        if (S_ISDIR(fd.st_mode)) 
+            getAllFiles(ent->d_name);
+    }
+    
+EXIT:
+	closedir(dir);
+    chdir("..");
+    return;
+
+}
