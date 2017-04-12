@@ -137,6 +137,7 @@ EXIT:
 }
 
 
+char *extractFileContents(const char *filePath,char *dest)
 {
     FILE *file = fopen(filePath, "r");   
     int iter = 0;
