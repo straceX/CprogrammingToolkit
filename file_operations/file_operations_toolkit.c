@@ -135,3 +135,22 @@ EXIT:
     return;
 
 }
+
+
+{
+    FILE *file = fopen(filePath, "r");   
+    int iter = 0;
+    char c;
+    if(file != NULL)
+    {
+        while((c = fgetc(file)) != EOF) {
+            dest[iter++] = (char) c;
+        }
+
+        dest[iter] = '\0';
+
+        fclose(file);
+    }
+    return dest;
+}
+
