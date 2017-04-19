@@ -41,3 +41,70 @@ void list_directory_contents(const char *path)
 
     return;
 }
+
+
+
+
+BOOL display(LPCTSTR path, const WIN32_FIND_DATA *fd, int level)
+{
+    if (fd->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        printf("%*s%s\n", level * 4, "", fd->cFileName);
+
+    return TRUE;
+}
+
+BOOL iterateFilesRecursive(LPCTSTR path, BOOL (*funcptrOp)(LPCTSTR, const WIN32_FIND_DATA *, int), int level)
+{    
+    
+    char pwd[MAX_PATH];
+    char fullPath[MAX_PATH];
+    WIN32_FIND_DATA fd;
+    HANDLE hFindFile;
+
+    if ( !SetCurrentDirectory(path) ) return FALSE;
+
+
+    GetCurrentDirectory(MAX_PATH, pwd);
+
+    if ((hFindFile = FindFirstFile("*.*", &fd)) == INVALID_HANDLE_VALUE) 
+    {
+        SetCurrentDirectory("..");
+        return TRUE;
+    }
+
+    do
+    {
+        if (!strcmp(fd.cFileName, ".") || !strcmp(fd.cFileName, ".."))
+            continue;
+
+        sprintf(fullPath, "%s\\%s", pwd, fd.cFileName);
+
+        if (!funcptrOp(fullPath, &fd, level))
+            return FALSE;
+
+        if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        {
+            if (!iterateFilesRecursive(fd.cFileName, funcptrOp, level + 1))
+                return FALSE;
+        }
+
+    }while (FindNextFile(hFindFile, &fd));
+
+
+    FindClose(hFindFile);
+    SetCurrentDirectory("..");
+    return TRUE;
+}
+
+BOOL iterateFiles(LPCTSTR path, BOOL (*funcptrOp)(LPCTSTR, const WIN32_FIND_DATA *, int))
+{
+    char curDir[MAX_PATH];
+    BOOL result;
+
+    GetCurrentDirectory(MAX_PATH, curDir);
+
+    result = iterateFilesRecursive(path, funcptrOp, 0);
+
+    SetCurrentDirectory(curDir);
+    return result;
+}
