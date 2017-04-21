@@ -33,9 +33,6 @@ void getAllFilesList(const char *path);
 
 
 
-
-
-
 #define BLOCK_SIZE      8192
 /*Merge files and write the rest to zero at the desired size*/
 int merge_file(const char *ofilename,const size_t filecount,const char **files,unsigned long ofsize);

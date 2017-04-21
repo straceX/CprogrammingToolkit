@@ -6,6 +6,10 @@
 
 #include <Windows.h>
 
+/*
+	IN Visual Studio must be 
+	(Conf. Properties) -> General -> Character Set -> Not Set
+*/
 BOOL iterateFiles(LPCTSTR path, BOOL (*funcptrOp)(LPCTSTR, const WIN32_FIND_DATA *, int));
 
 #else

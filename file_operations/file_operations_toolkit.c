@@ -1,24 +1,73 @@
+
+#ifdef OS_WINDOWS
+  
+   
+
+
+#else
+
 stream_info *learn_buffer_inf(FILE *fp)
 {
-	stream_info *si = NULL;
+    stream_info *si = NULL;
 
-	if( !(si = (stream_info *) malloc(sizeof(stream_info)) ) )
-		return NULL;
-	else
-	{
+    if( !(si = (stream_info *) malloc(sizeof(stream_info)) ) )
+        return NULL;
+    else
+    {
 
-		if (fp->_flags & _IONBF)
-			si->buff_type = "Unbuffered";
-		else if (fp->_flags & _IOLBF)
-			si->buff_type = "Line buffered";
-		else 
-			si->buff_type = "Fully buffered";
+        if (fp->_flags & _IONBF)
+            si->buff_type = "Unbuffered";
+        else if (fp->_flags & _IOLBF)
+            si->buff_type = "Line buffered";
+        else 
+            si->buff_type = "Fully buffered";
 
-		si->buff_size = __fbufsize(fp);
-		return si;
-	}
+        si->buff_size = __fbufsize(fp);
+        return si;
+    }
     
 }
+
+void getAllFilesList(const char *path)
+{
+    struct stat fd;
+    struct dirent *ent;
+    DIR *dir;
+
+    if (chdir(path) < 0) 
+        return;
+
+    if ((dir = opendir(".")) == NULL)
+    {
+        chdir("..");
+        return;
+    }
+
+    while ((ent = readdir(dir)) != NULL) 
+    {
+        if (!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, ".."))
+            continue;
+            
+        if(ent->d_type != DT_DIR)    
+            printf("%s\n", ent->d_name);
+        
+        if (stat(ent->d_name, &fd) < 0)
+            goto EXIT;
+        
+        if (S_ISDIR(fd.st_mode)) 
+            getAllFiles(ent->d_name);
+    }
+    
+EXIT:
+    closedir(dir);
+    chdir("..");
+    return;
+
+}
+
+
+#endif
+
 
 int merge_file(const char *ofilename,const size_t filecount,const char **files,unsigned long ofsize)
 {
@@ -99,42 +148,7 @@ int merge_file(const char *ofilename,const size_t filecount,const char **files,u
     return 0;
 }
 
-void getAllFilesList(const char *path)
-{
-	struct stat fd;
-	struct dirent *ent;
-	DIR *dir;
 
-	if (chdir(path) < 0) 
-		return;
-
-	if ((dir = opendir(".")) == NULL)
-	{
-		chdir("..");
-		return;
-	}
-
-    while ((ent = readdir(dir)) != NULL) 
-    {
-		if (!strcmp(ent->d_name, ".") || !strcmp(ent->d_name, ".."))
-            continue;
-            
-        if(ent->d_type != DT_DIR)    
-		    printf("%s\n", ent->d_name);
-        
-        if (stat(ent->d_name, &fd) < 0)
-			goto EXIT;
-        
-        if (S_ISDIR(fd.st_mode)) 
-            getAllFiles(ent->d_name);
-    }
-    
-EXIT:
-	closedir(dir);
-    chdir("..");
-    return;
-
-}
 
 
 char *extractFileContents(const char *filePath,char *dest)
